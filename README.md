@@ -1,7 +1,11 @@
 # dukat
 Dukat is a docker image for a rapid python based REST database microservice
 
-## How pull
+## Building
 
-## How to build
+    docker-compose -f dukat.yml build
+
+## Running
+
+    docker-compose -f dukat.yml up -d
 
