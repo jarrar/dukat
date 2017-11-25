@@ -1,0 +1,58 @@
+#!/bin/bash
+SCRIPT=${0##*/}
+#SCRIPT=$(readlink -f $0)
+DIR=$(dirname $0)
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+
+#PROJECT_DIR=$(realpath $DIR/../../..)
+
+readonly DISABLES="F0401,W1202,W0403"
+
+RCFILE=$PROJECT_DIR/pylint/pylint.txt
+
+
+function die() { echo $@; exit 1; }
+
+function init()
+{
+    [[   -z $VIRTUAL_ENV ]] && py_lint=${VIRTUAL_ENV}/bin/pylint
+    [[ ! -z $VIRTUAL_ENV ]] && py_lint=$(which pylint)
+
+    [[ -z $py_lint ]] && die "pylint is not installed, use pip install pylint to intsall"
+}
+
+function run_pylint()
+{
+    dump_env
+    format="text"
+    if [[ $HTML_REPORT == "yes" ]]
+    then
+        format="html"
+    fi
+
+    set -x
+    cd $PROJECT_DIR/webapp
+    $py_lint --reports=y \
+        --disable=$DISABLES \
+        --output-format=$format \
+        --rcfile=$RCFILE\
+        webapp
+}
+
+function dump_env()
+{
+    cat <<-EOF
+PYTHONPATH=$PYTHONPATH
+SCRIPT=$SCRIPT
+DIR=$DIR
+PROJECT_DIR=$PROJECT_DIR
+RCFILE=$RCFILE
+EOF
+}
+
+#
+# main
+#
+
+init
+run_pylint || die "Pylint check failed. rc=$?"

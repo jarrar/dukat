@@ -1,0 +1,32 @@
+version: '2.1'
+
+networks:
+  my-net:
+    driver: bridge
+
+services:
+  dukat-rest:
+    build: ./
+    networks:
+      my-net:
+        aliases:
+          - dukat
+          - dukat.docker
+
+    environment:
+      - PYTHONPATH=/webapp
+      - CASM_DB=/var/log/db/casm.db
+      - CASM_DB_CONNECT_TMOUT=15
+      #- WORKSPACE
+      - LOGS=/var/log
+      - SRC=/webapp
+
+    #entrypoint: /bin/bash
+
+    expose:
+      - 4130
+
+#    volumes:
+#      #- $WORKSPACE/ncs-test:/ncs-test
+#      - $WORKSPACE/casm/webapp:/webapp
+#      - /tmp/docker/logs/casm:/var/log/
