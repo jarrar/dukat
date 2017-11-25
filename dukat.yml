@@ -15,7 +15,7 @@ services:
 
     environment:
       - PYTHONPATH=/webapp
-      - DB_LOCATION=/var/log/db/casm.db
+      - DB_LOCATION=/var/log/db/dukat.db
       - DB_CONNECT_TMOUT=15
       #- WORKSPACE
       - LOGS=/var/log
