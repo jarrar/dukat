@@ -15,8 +15,8 @@ services:
 
     environment:
       - PYTHONPATH=/webapp
-      - CASM_DB=/var/log/db/casm.db
-      - CASM_DB_CONNECT_TMOUT=15
+      - DB_LOCATION=/var/log/db/casm.db
+      - DB_CONNECT_TMOUT=15
       #- WORKSPACE
       - LOGS=/var/log
       - SRC=/webapp
@@ -26,7 +26,5 @@ services:
     expose:
       - 4130
 
-#    volumes:
-#      #- $WORKSPACE/ncs-test:/ncs-test
-#      - $WORKSPACE/casm/webapp:/webapp
-#      - /tmp/docker/logs/casm:/var/log/
+    volumes:
+      - /tmp/docker/logs/dukat:/var/log/
